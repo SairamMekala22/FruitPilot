@@ -1,0 +1,6 @@
+
+mango dataset links:-
+
+1.Mango Detection Dataset (Mendeley Data)
+	Content: 1,025 images categorized into Single, Proximal, and Far-Field views, each with corresponding labels.
+    link: https://data.mendeley.com/datasets/gcgrjvwmm2/1
