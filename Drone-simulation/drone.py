@@ -62,12 +62,13 @@ altitude_change_speed = 0.5 # m/s for vertical movement
 yaw_rate_deg_s = 30 # degrees per second for yaw
 
 # --- DroneKit Connection ---
+keyboard_thread = None
 def connect_vehicle():
     """ Connects to the vehicle using DroneKit. """
-    global vehicle
+    global vehicle 
     # connection_string = 'tcp:127.0.0.1:5762' # SITL
     # connection_string = '/dev/ttyACM0' # Example for Serial connection (Linux) - CHANGE AS NEEDED
-    connection_string = 'tcp:127.0.0.1:5762' # Example for Serial connection (Windows) - CHANGE TO YOUR PORT # Example for Serial connection (Linux) - CHANGE AS NEEDED
+    connection_string = 'udp:127.0.0.1:14552' # Example for Serial connection (Windows) - CHANGE TO YOUR PORT # Example for Serial connection (Linux) - CHANGE AS NEEDED
     # connection_string = 'com3' # Example for Serial connection (Windows) - CHANGE AS NEEDED
     print(f"Attempting to connect to vehicle on: {connection_string}")
 
