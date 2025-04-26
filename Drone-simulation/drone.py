@@ -241,6 +241,7 @@ def condition_yaw(heading_deg, relative=False, direction=1, rate_deg_s=None):
 
 # --- Keyboard Control Loop ---
 def keyboard_control_loop():
+
     """ Listens for keyboard input and controls the drone. """
     global running
     print("\n--- Keyboard Control Enabled ---")
@@ -351,7 +352,6 @@ if __name__ == '__main__':
 
     # Wait for connection attempt
     connect_thread.join(timeout=10.0) # Give it time to try connecting
-
     if vehicle:
         # Start keyboard listener only if connection was successful
         keyboard_thread = threading.Thread(target=keyboard_control_loop, name='KeyboardThread', daemon=True)
