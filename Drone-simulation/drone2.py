@@ -54,6 +54,7 @@ def arm_and_takeoff(aTargetAltitude):
     print("Arming motors")
     vehicle.mode = VehicleMode("GUIDED")
     vehicle.armed = True
+    print("Vehicle armed succefully")
     while not vehicle.armed:
         print(" Waiting for arming...")
         time.sleep(1)
