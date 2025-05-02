@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Control Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fa-solid fa-drone"></i>
+            <span>Fruit Pilot</span>
+        </div>
+        <div class="nav-tabs">
+            <div class="nav-tab">Dashboard</div>
+            <div class="nav-tab active-tab">Overview</div>
+            <div class="nav-tab">Routes</div>
+            <div class="nav-tab">3D-display</div>
+            <div class="nav-tab">Map View</div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">📍 243.4 km²</div>
+        <div class="status-item">🌡️ 36°C</div>
+        <div class="status-item">⚡ Ongoing 1:12:32</div>
+        <div class="status-item">🕑 11:43 AM</div>
+        <!-- <div class="status-item" style="">No of fruits Detected </div> -->
+    </div>
+    
+    <div class="main-container">
+        <div class="main-view">
+            <div class="drone-feed">
+                <img src="C:\Users\abhin\Desktop\frontend\images.jpeg" alt="placeholder" class="drone-img" />
+                <div class="feed-overlay">
+                    <div class="targeting"></div>
+                    <div class="feed-info">HD • 38 FPS</div>
+                    <div class="compass">
+                        <div class="compass-arrow"></div>
+                    </div>
+                    <div class="real-time">
+                        <div class="red-dot"></div>
+                        Real time view
+                    </div>
+                    <div class="map-view">
+                        <img src="C:\Users\abhin\Desktop\frontend\images.jpeg" alt="placeholder" class="minimap" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="side-panel">
+            <div class="drone-info">
+                <div class="drone-title">DHMR-3200</div>
+                <div class="drone-desc">We've increased the range of drones and zoom to 500km</div>
+                
+                <div class="battery">
+                    <div class="battery-header">
+                        <div class="battery-icon">🔋60%</div>
+                        <div>2063/3456 Mah</div>
+                        <div>27°C</div>
+                    </div>
+                    <div class="battery-bar">
+                        <div class="battery-level"></div>
+                    </div>
+                </div>
+                
+                <div class="altitude-section" style="margin-top: 15px;">
+                    <div>Altitude Control</div>
+                    <div class="altitude-gauge">
+                        <div class="altitude-bar">
+                            <div class="altitude-fill"></div>
+                        </div>
+                        <div class="altitude-markers">
+                            <div class="altitude-marker" style="bottom: 0%">0m</div>
+                            <div class="altitude-marker" style="bottom: 25%">50m</div>
+                            <div class="altitude-marker" style="bottom: 50%">100m</div>
+                            <div class="altitude-marker" style="bottom: 75%">150m</div>
+                            <div class="altitude-marker" style="bottom: 100%">200m</div>
+                        </div>
+                        <div class="altitude-current" style="bottom: 42%">
+                            <div class="altitude-pointer">▶</div>
+                            <div class="altitude-value">85m</div>
+                        </div>
+                        <div class="altitude-limit" style="bottom: 75%">
+                            <div class="altitude-limit-line"></div>
+                            <div class="altitude-limit-text">Max: 150m</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 10px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>⚡ 60 Hz</span>
+                        <span>ISO Hz</span>
+                    </div>
+                    <!-- <div style="display: flex; justify-content: space-between;">
+                        <span>100 Hz</span>
+                        <span>150 Hz</span>
+                        <span>220 Hz</span>
+                        <span>300 Hz</span>
+                    </div> -->
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="section-title">Alerts</div>
+                <div class="alerts-container">
+                    <div class="alert-item warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-info">
+                            <div class="alert-title">Low Battery Warning</div>
+                            <div class="alert-desc">Battery at 20% - Return to base recommended</div>
+                        </div>
+                    </div>
+                    <div class="alert-item danger">
+                        <div class="alert-icon">🚨</div>
+                        <div class="alert-info">
+                            <div class="alert-title">Out of Range</div>
+                            <div class="alert-desc">Drone approaching maximum signal range</div>
+                        </div>
+                    </div>
+                    <div class="alert-item warning">
+                        <div class="alert-icon">🚧</div>
+                        <div class="alert-info">
+                            <div class="alert-title">Obstacle Detected</div>
+                            <div class="alert-desc">Tree line at 50m - Auto avoidance active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="section-title">Telemetry Data</div>
+                <div class="telemetry-container">
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">Speed</div>
+                        <div class="telemetry-value">23 km/h</div>
+                    </div>
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">Altitude</div>
+                        <div class="telemetry-value">85 m</div>
+                    </div>
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">Distance</div>
+                        <div class="telemetry-value">1.2 km</div>
+                    </div>
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">Wind Speed</div>
+                        <div class="telemetry-value">6 m/s</div>
+                    </div>
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">GPS Signal</div>
+                        <div class="telemetry-value">Strong (16 satellites)</div>
+                    </div>
+                    <div class="telemetry-row">
+                        <div class="telemetry-label">Flight Time</div>
+                        <div class="telemetry-value">25:34 min</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <div class="action-btn">Return Home</div>
+                    <div class="action-btn primary">Emergency Land</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelector('.active-tab').classList.remove('active-tab');
+                tab.classList.add('active-tab');
+            });
+        });
+        
+        // Flash alerts periodically
+        setInterval(() => {
+            const alerts = document.querySelectorAll('.alert-item');
+            const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
+            
+            randomAlert.style.opacity = '0.5';
+            setTimeout(() => {
+                randomAlert.style.opacity = '1';
+            }, 300);
+        }, 3000);
+        
+        // Simulate changing telemetry data
+        setInterval(() => {
+            const speedElement = document.querySelector('.telemetry-row:nth-child(1) .telemetry-value');
+            const altitudeElement = document.querySelector('.telemetry-row:nth-child(2) .telemetry-value');
+            const altitudeFill = document.querySelector('.altitude-fill');
+            const altitudeCurrent = document.querySelector('.altitude-current');
+            const altitudeValue = document.querySelector('.altitude-value');
+            
+            // Random variations in speed and altitude
+            const currentSpeed = parseInt(speedElement.textContent);
+            const newSpeed = Math.max(18, Math.min(28, currentSpeed + (Math.random() > 0.5 ? 1 : -1)));
+            speedElement.textContent = newSpeed + ' km/h';
+            
+            const currentAltitude = parseInt(altitudeElement.textContent);
+            const newAltitude = Math.max(80, Math.min(90, currentAltitude + (Math.random() > 0.5 ? 1 : -1)));
+            altitudeElement.textContent = newAltitude + ' m';
+            
+            // Update altitude gauge
+            const heightPercentage = (newAltitude / 200) * 100;
+            altitudeFill.style.height = heightPercentage + '%';
+            altitudeCurrent.style.bottom = heightPercentage + '%';
+            altitudeValue.textContent = newAltitude + 'm';
+        }, 2000);
+    </script>
+</body>
+</html>
