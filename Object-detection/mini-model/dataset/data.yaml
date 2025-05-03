@@ -1,0 +1,7 @@
+train: train/images
+val: valid/images
+test: test/images
+
+names: 
+  0: D
+  1: Mangoes
