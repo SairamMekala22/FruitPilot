@@ -145,7 +145,7 @@ condition_yaw(desired_yaw)
 
 
 # Wait for yaw to complete
-time.sleep(10)
+time.sleep(20)
 
 print(f"New heading: {vehicle.heading}")
 
