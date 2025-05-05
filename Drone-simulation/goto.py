@@ -43,6 +43,7 @@ waypoints = [
     LocationGlobalRelative(17.3975000, 78.4899000, 10),
     LocationGlobalRelative(17.3977000, 78.4896000, 10),
     LocationGlobalRelative(17.3972861, 78.4897848, 10),  # Return to original position manually before RTL
+    LocationGlobalRelative(17.3972900, 78.4897800, 10)
 ]
 
 # Fly to each waypoint
