@@ -28,3 +28,7 @@ export interface Mission {
   waypoints: Waypoint[];
   coverageArea: string;
 }
+export interface Waypoint {
+  lat: number;
+  lng: number;
+}

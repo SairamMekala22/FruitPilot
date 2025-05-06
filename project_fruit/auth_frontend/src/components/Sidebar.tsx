@@ -79,8 +79,8 @@ const Sidebar = () => {
           <NavItem to="/" icon={Home} label="Dashboard" />
           <NavItem to="/mission-planner" icon={Map} label="Mission Planner" />
           <NavItem to="/drone-details/current" icon={Drone} label="Drone Control" />
-          <NavItem to="/analytics" icon={BarChart2} label="Analytics" />
-          <NavItem to="/settings" icon={Settings} label="Settings" />
+          {/* <NavItem to="/analytics" icon={BarChart2} label="Analytics" />
+          <NavItem to="/settings" icon={Settings} label="Settings" /> */}
         </nav>
       </aside>
     </>
