@@ -1,0 +1,8 @@
+path: C:\Users\chpav\OneDrive\Desktop\fruitpilot\mango_dataset
+train: images/train
+val: images/valid
+test: images/test
+
+#classes 
+names:
+    0: Mango
