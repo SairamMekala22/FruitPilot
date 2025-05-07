@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Import Link
+import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import "./Signup.css";
 
@@ -7,38 +7,64 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async () => {
+    if (!username || !email || !password) {
+      alert("Please fill all fields.");
+      return;
+    }
+
     try {
+      setLoading(true);
       await api.post("/auth/signup", { username, email, password });
+      alert("Signup successful! Please log in.");
       navigate("/login");
-    } catch (err) {
-      alert("Signup failed. Email may already exist.");
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      alert(
+        err?.response?.data?.error || "Signup failed. Email may already exist."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="signup-container">
-      <h2 className="signup-header">Signup</h2>
+      <h2 className="signup-header">Sign Up</h2>
+
       <input
         className="signup-input"
+        type="text"
         placeholder="Username"
-        onChange={e => setUsername(e.target.value)}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
+
       <input
         className="signup-input"
+        type="email"
         placeholder="Email"
-        onChange={e => setEmail(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
+
       <input
         className="signup-input"
-        placeholder="Password"
         type="password"
-        onChange={e => setPassword(e.target.value)}
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
-      <button className="signup-button" onClick={handleSignup}>
-        Signup
+
+      <button
+        className="signup-button"
+        onClick={handleSignup}
+        disabled={loading}
+      >
+        {loading ? "Signing up..." : "Sign Up"}
       </button>
 
       <p className="login-link">
