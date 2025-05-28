@@ -1,21 +1,20 @@
-# OBJECT DETECTION + DRONEKIT INTEGRATION (UPDATED)
-# Uses your custom YOLO model (kaggle100.pt) + distance estimation
+# OBJECT DETECTION + DRONEKIT INTEGRATION WITH AUTO YAW SEARCH
 
-from dronekit import connect, VehicleMode, LocationGlobalRelative
+from dronekit import connect, VehicleMode, LocationGlobalRelative, Command
 import time
 import cv2
 from ultralytics import YOLO
 import math
+from pymavlink import mavutil
 
 # === CONFIGURATION ===
 MODEL_PATH = 'kaggle100.pt'
 REAL_FRUIT_WIDTH_CM = 8.0
 FOCAL_LENGTH_MM = 3.6
 SENSOR_WIDTH_MM = 4.8
-# IMAGE_WIDTH_PX = 640
-# IMAGE_HEIGHT_PX = 480
-IMAGE_WIDTH_PX = 3840
-IMAGE_HEIGHT_PX = 2160
+IMAGE_WIDTH_PX = 640
+IMAGE_HEIGHT_PX = 480
+YAW_INCREMENT_DEG = 30
 
 # === CONNECT TO DRONE ===
 print("Connecting to drone...")
@@ -51,7 +50,22 @@ def arm_and_takeoff(altitude):
             break
         time.sleep(1)
 
-# === OBJECT DETECTION + YAW SWEEPING ===
+# === YAW ROTATION FUNCTION ===
+def condition_yaw(heading, relative=False):
+    is_relative = 1 if relative else 0
+    msg = vehicle.message_factory.command_long_encode(
+        0, 0,
+        mavutil.mavlink.MAV_CMD_CONDITION_YAW,
+        0,
+        heading,
+        0,
+        1,
+        is_relative,
+        0, 0, 0)
+    vehicle.send_mavlink(msg)
+    vehicle.flush()
+
+# === OBJECT DETECTION + DRONE INTERACTION ===
 def detect_and_hover():
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH_PX)
@@ -69,9 +83,11 @@ def detect_and_hover():
         boxes = results.boxes
 
         if boxes is None or len(boxes.xyxy) == 0:
-            print("No objects detected. Rotating to next frame...")
-            yaw_angle += 30  # rotate 30 degrees per scan
-            condition_yaw(yaw_angle % 360)
+            print("No mango detected. Rotating...")
+            cv2.imshow("Feed", frame)
+            cv2.waitKey(1)
+            yaw_angle += YAW_INCREMENT_DEG
+            condition_yaw(YAW_INCREMENT_DEG, relative=True)
             time.sleep(3)
             continue
 
@@ -103,20 +119,6 @@ def detect_and_hover():
 
     cap.release()
     cv2.destroyAllWindows()
-
-# === ROTATE YAW FUNCTION ===
-def condition_yaw(heading, relative=False):
-    msg = vehicle.message_factory.command_long_encode(
-        0, 0,    # target system, target component
-        115,     # command: MAV_CMD_CONDITION_YAW
-        0,       # confirmation
-        heading, # param 1: target angle
-        20,      # param 2: speed (deg/s)
-        1 if relative else 0,  # param 3: direction (1 = clockwise)
-        0, 0, 0, 0             # param 4-7: unused
-    )
-    vehicle.send_mavlink(msg)
-    vehicle.flush()
 
 # === EXECUTE FULL FLOW ===
 arm_and_takeoff(10)
