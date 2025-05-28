@@ -99,6 +99,7 @@ def detect_and_hover():
             yaw_angle = yaw_angle % 360
             print(f"Rotating to yaw angle: {yaw_angle}")
             condition_yaw(yaw_angle)
+            cv2.imshow("Live Feed", frame)
             time.sleep(4)
             continue
 
