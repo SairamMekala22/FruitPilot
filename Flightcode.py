@@ -8,13 +8,19 @@ import math
 from pymavlink import mavutil
 
 # === CONFIGURATION ===
+# MODEL_PATH = 'kaggle100.pt'
+# REAL_FRUIT_WIDTH_CM = 8.0
+# FOCAL_LENGTH_MM = 3.6
+# SENSOR_WIDTH_MM = 4.8
+# IMAGE_WIDTH_PX = 640
+# IMAGE_HEIGHT_PX = 480
+# YAW_INCREMENT_DEG = 30
 MODEL_PATH = 'kaggle100.pt'
 REAL_FRUIT_WIDTH_CM = 8.0
 FOCAL_LENGTH_MM = 3.6
 SENSOR_WIDTH_MM = 4.8
 IMAGE_WIDTH_PX = 640
 IMAGE_HEIGHT_PX = 480
-YAW_INCREMENT_DEG = 30
 
 # === CONNECT TO DRONE ===
 print("Connecting to drone...")
@@ -70,10 +76,15 @@ def detect_and_hover():
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH_PX)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, IMAGE_HEIGHT_PX)
-    detected = False
-    yaw_angle = 0
 
-    while not detected:
+    # === Calculate camera FOV from parameters ===
+    horizontal_fov_deg = 2 * math.degrees(math.atan((SENSOR_WIDTH_MM / 2) / FOCAL_LENGTH_MM))
+    print(f"Calculated horizontal FOV: {horizontal_fov_deg:.2f} degrees")
+
+    yaw_angle = 0
+    detected = False
+
+    while True:
         ret, frame = cap.read()
         if not ret:
             print("Camera error.")
@@ -83,12 +94,12 @@ def detect_and_hover():
         boxes = results.boxes
 
         if boxes is None or len(boxes.xyxy) == 0:
-            print("No mango detected. Rotating...")
-            cv2.imshow("Feed", frame)
-            cv2.waitKey(1)
-            yaw_angle += YAW_INCREMENT_DEG
-            condition_yaw(YAW_INCREMENT_DEG, relative=True)
-            time.sleep(3)
+            print("No objects detected.")
+            yaw_angle += int(horizontal_fov_deg / 2) - 5
+            yaw_angle = yaw_angle % 360
+            print(f"Rotating to yaw angle: {yaw_angle}")
+            condition_yaw(yaw_angle)
+            time.sleep(4)
             continue
 
         bboxes = boxes.xyxy.cpu()
@@ -107,6 +118,15 @@ def detect_and_hover():
 
             if conf > 0.6:
                 print(f"Fruit detected at ~{dist_cm:.1f}cm")
+                bbox_center_x = (x1 + x2) // 2
+                frame_center_x = IMAGE_WIDTH_PX // 2
+                error = bbox_center_x - frame_center_x
+
+                if abs(error) > 20:
+                    correction_angle = int((error / IMAGE_WIDTH_PX) * horizontal_fov_deg)
+                    print(f"Aligning yaw by {correction_angle} degrees")
+                    condition_yaw(correction_angle, relative=True)
+                    time.sleep(3)
                 print("Switching to LOITER mode to hover.")
                 vehicle.mode = VehicleMode("LOITER")
                 time.sleep(5)
@@ -116,9 +136,12 @@ def detect_and_hover():
         cv2.imshow("Feed", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+        if detected:
+            break
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 # === EXECUTE FULL FLOW ===
 arm_and_takeoff(10)
