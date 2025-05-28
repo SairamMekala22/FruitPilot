@@ -10,7 +10,9 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!username || !email || !password) {
       alert("Please fill all fields.");
       return;
@@ -24,7 +26,9 @@ const Signup = () => {
     } catch (err: any) {
       console.error("Signup error:", err);
       alert(
-        err?.response?.data?.error || "Signup failed. Email may already exist."
+        err?.response?.data?.message ||
+          err?.response?.data?.error ||
+          "Signup failed. Email may already exist."
       );
     } finally {
       setLoading(false);
@@ -35,37 +39,42 @@ const Signup = () => {
     <div className="signup-container">
       <h2 className="signup-header">Sign Up</h2>
 
-      <input
-        className="signup-input"
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <form onSubmit={handleSignup}>
+        <input
+          className="signup-input"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
-      <input
-        className="signup-input"
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <input
+          className="signup-input"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-      <input
-        className="signup-input"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <input
+          className="signup-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-      <button
-        className="signup-button"
-        onClick={handleSignup}
-        disabled={loading}
-      >
-        {loading ? "Signing up..." : "Sign Up"}
-      </button>
+        <button
+          className="signup-button"
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Signing up..." : "Sign Up"}
+        </button>
+      </form>
 
       <p className="login-link">
         Already have an account? <Link to="/login">Log in here</Link>

@@ -16,18 +16,22 @@ const Login = () => {
       alert("Please enter both email and password.");
       return;
     }
-
+  
     try {
       setLoading(true);
       const res = await api.post("/auth/login", { email, password });
-      login(res.data.token); // Save token using context
-      navigate("/"); // Redirect to root (dashboard under protected route)
+  
+      login(res.data.token); // Save token in context
+      localStorage.setItem("username", res.data.username); // ✅ Store username
+  
+      navigate("/"); // Redirect to dashboard
     } catch (err) {
       alert("Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="login-container">
