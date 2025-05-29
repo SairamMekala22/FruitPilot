@@ -7,7 +7,8 @@ print("Connecting to vehicle...")
 vehicle = connect('tcp:127.0.0.1:5762', wait_ready=True)
 print("Connected.")
 
-def condition_yaw(heading, relative=True, yaw_speed=20):
+# vehicle.mode = VehicleMode("LAND")
+def condition_yaw(heading, relative=False, yaw_speed=20):
     is_relative = 1 if relative else 0
     msg = vehicle.message_factory.command_long_encode(
         0, 0,
@@ -37,7 +38,7 @@ def arm_and_takeoff(target_altitude):
         time.sleep(1)
 
 # Step 1: Takeoff to 10 meters
-arm_and_takeoff(10)
+arm_and_takeoff(5)
 
 # Step 2: Simulate fruit bounding box detection
 image_width = 800
@@ -45,10 +46,10 @@ image_height = 600
 camera_fov_deg = 90  # horizontal FOV
 
 # Simulated bounding box
-bbox_x = 600
-bbox_y = 300
-bbox_w = 100
-bbox_h = 100
+bbox_x = int(input())
+bbox_y = int(input())
+bbox_w = int(input())
+bbox_h = int(input())
 
 # Calculate center of the bounding box
 fruit_cx = bbox_x + bbox_w / 2
@@ -72,7 +73,7 @@ print(f"Target altitude to reach fruit: {target_altitude:.2f} m")
 
 # Step 3: Yaw to face the fruit
 condition_yaw(yaw_angle, relative=True)
-time.sleep(5)
+time.sleep(5) 
 
 # Step 4: Descend to fruit level
 current_location = vehicle.location.global_relative_frame
@@ -91,9 +92,9 @@ while True:
     time.sleep(1)
 
 # Step 5: Land
-time.sleep(5)  # Optional: wait at fruit level before landing
-# print("Landing...")
-# vehicle.mode = VehicleMode("LAND")
+time.sleep(20)  # Optional: wait at fruit level before landing
+print("Landing...")
+vehicle.mode = VehicleMode("LAND")
 
 while vehicle.location.global_relative_frame.alt > 0.1:
     print(f" Landing... Altitude: {vehicle.location.global_relative_frame.alt:.2f} m")

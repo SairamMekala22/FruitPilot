@@ -85,6 +85,7 @@
 # time.sleep(20)
 # vehicle.close()
 # print("Mission complete.")
+
 from dronekit import connect, VehicleMode, Command
 from pymavlink import mavutil
 import time
@@ -101,6 +102,7 @@ def condition_yaw(heading, relative=False, yaw_speed=20):
     :param relative: True for relative angle, False for absolute heading
     :param yaw_speed: Speed of yaw in deg/sec
     """
+
     is_relative = 1 if relative else 0
 
     msg = vehicle.message_factory.command_long_encode(
@@ -113,6 +115,7 @@ def condition_yaw(heading, relative=False, yaw_speed=20):
         is_relative,                            # param 4: relative (1) or absolute (0)
         0, 0, 0                                 # param 5-7 (unused)
     )
+    
     vehicle.send_mavlink(msg)
     vehicle.flush()
 
@@ -123,6 +126,8 @@ def arm_and_takeoff(aTargetAltitude):
     vehicle.armed = True
 
     while not vehicle.armed:
+
+
         print(" Waiting for arming...")
         time.sleep(1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     print("Taking off!")
