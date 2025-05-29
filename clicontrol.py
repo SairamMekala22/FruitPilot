@@ -59,7 +59,7 @@ def condition_yaw(heading, relative=False):
 # === FORWARD MOVEMENT ===
 def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
     msg = vehicle.message_factory.set_position_target_local_ned_encode(
-        0, 0, 0, mavutil.mavlink.MAV_FRAME_LOCAL_NED,
+        0, 0, 0, mavutil.mavlink.MAV_FRAME_BODY_NED,  # Use BODY frame instead of LOCAL_NED
         0b0000111111000111,
         0, 0, 0,
         velocity_x, velocity_y, velocity_z,
@@ -91,7 +91,6 @@ def arm(altitude = 10):
     armed = True
     print("Armed.")
 
-# def takeoff(altitude):
     print(f"Taking off to {altitude}m")
     vehicle.simple_takeoff(altitude)
     while True:
@@ -123,6 +122,22 @@ def detect_loop():
         results = model.predict(source=frame, conf=0.5, verbose=False)[0]
         boxes = results.boxes
 
+        if boxes is not None and len(boxes.xyxy) > 0:
+            for i, box in enumerate(boxes.xyxy.cpu()):
+                x1, y1, x2, y2 = box.int().tolist()
+                conf = results.boxes.conf[i].item()
+                bbox_width = x2 - x1
+                bbox_height = y2 - y1
+                bbox_center_x = (x1 + x2) // 2
+                frame_center_x = IMAGE_WIDTH_PX // 2
+                error = bbox_center_x - frame_center_x
+
+                dist_cm = estimate_distance(FOCAL_LENGTH_MM, REAL_FRUIT_WIDTH_CM, bbox_width, IMAGE_WIDTH_PX, SENSOR_WIDTH_MM)
+
+                label = f"Conf: {conf:.2f}, Dist: {dist_cm:.1f}cm"
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
         if searching and connected and armed:
             if boxes is None or len(boxes.xyxy) == 0:
                 yaw_angle += int(horizontal_fov_deg / 2) - 5
@@ -134,17 +149,11 @@ def detect_loop():
                 for i, box in enumerate(boxes.xyxy.cpu()):
                     x1, y1, x2, y2 = box.int().tolist()
                     bbox_width = x2 - x1
-                    bbox_height = y2 - y1
                     bbox_center_x = (x1 + x2) // 2
                     frame_center_x = IMAGE_WIDTH_PX // 2
                     error = bbox_center_x - frame_center_x
 
                     dist_cm = estimate_distance(FOCAL_LENGTH_MM, REAL_FRUIT_WIDTH_CM, bbox_width, IMAGE_WIDTH_PX, SENSOR_WIDTH_MM)
-                    height_cm = estimate_height_difference(FOCAL_LENGTH_MM, REAL_FRUIT_HEIGHT_CM, bbox_height, IMAGE_HEIGHT_PX, SENSOR_HEIGHT_MM)
-
-                    label = f"Dist: {dist_cm:.1f}cm | Height: {height_cm:.1f}cm"
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
                     if abs(error) > 20:
                         correction = int((error / IMAGE_WIDTH_PX) * horizontal_fov_deg)
@@ -152,7 +161,7 @@ def detect_loop():
                         condition_yaw(correction, relative=True)
                         time.sleep(3)
 
-                    print("Moving toward object...")
+                    print(f"Moving toward object... Estimated distance: {dist_cm:.1f} cm")
                     dist_m = dist_cm / 100.0
                     send_ned_velocity(0.25, 0, 0, int(dist_m / 0.25))
                     searching = False
@@ -172,7 +181,7 @@ def detect_loop():
 # === KEYBOARD CLI FUNCTIONS ===
 def cli_control():
     global vehicle, connected
-    print("Commands:\n'd' = connect to drone\n'm' = arm\n't' = takeoff\n's' = start search\n'q' = quit")
+    print("Commands:\n'd' = connect to drone\n'm' = arm + takeoff\n's' = start search\n'q' = quit")
     while True:
         if keyboard.is_pressed('d') and not connected:
             print("Connecting to drone...")
@@ -186,10 +195,6 @@ def cli_control():
             arm(height)
             print("Enter next command")
             time.sleep(1)
-
-        # elif keyboard.is_pressed('t') and connected and armed:
-        #     takeoff(altitude_to_fly)
-        #     time.sleep(1)
 
         elif keyboard.is_pressed('q'):
             if connected:
