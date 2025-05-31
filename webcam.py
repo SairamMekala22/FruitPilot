@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 # Load the YOLOv8 model
-model = YOLO("old_150.pt")  # use your exact path
+model = YOLO("mango_yolov8.pt")  # use your exact path
 
 # Open webcam
 cap = cv2.VideoCapture(2)
