@@ -10,7 +10,7 @@ import threading
 import keyboard
 
 # === CONFIGURATION ===
-MODEL_PATH = 'kaggle100.pt'
+MODEL_PATH = 'old_150.pt'
 REAL_FRUIT_WIDTH_CM = 8.0
 REAL_FRUIT_HEIGHT_CM = 10.0
 FOCAL_LENGTH_MM = 3.6
