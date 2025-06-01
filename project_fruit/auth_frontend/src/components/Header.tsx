@@ -44,9 +44,9 @@ const Header = () => {
         <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
           <Bell size={20} className="text-gray-600" />
         </button>
-        <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+        {/* <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
           <Settings size={20} className="text-gray-600" />
-        </button>
+        </button> */}
 
         {/* User Icon + Dropdown */}
         <div className="relative">

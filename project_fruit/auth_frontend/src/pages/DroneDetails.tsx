@@ -174,9 +174,9 @@ const DroneDetails = () => {
                 <RefreshCcw size={16} />
               </button>
               
-              <button className="p-1.5 text-gray-500 hover:text-indigo-600 rounded-full hover:bg-gray-100">
+              {/* <button className="p-1.5 text-gray-500 hover:text-indigo-600 rounded-full hover:bg-gray-100">
                 <Eye size={16} />
-              </button>
+              </button> */}
             </div>
           </div>
           
@@ -225,20 +225,20 @@ const DroneDetails = () => {
                     
                     {/* HUD Overlay */}
                     <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute top-4 left-4 text-white text-shadow">
+                      {/* <div className="absolute top-4 left-4 text-white text-shadow">
                         <div className="text-sm">Alt: {altitude.toFixed(1)}m</div>
                         <div className="text-sm">Speed: {speed.toFixed(1)}m/s</div>
-                      </div>
+                      </div> */}
                       
-                      <div className="absolute top-4 right-4 text-white text-shadow">
+                      {/* <div className="absolute top-4 right-4 text-white text-shadow">
                         <div className="text-sm">Battery: {batteryLevel.toFixed(0)}%</div>
                         <div className="text-sm">Signal: {signalStrength.toFixed(0)}%</div>
-                      </div>
+                      </div> */}
                       
-                      <div className="absolute bottom-4 left-4 text-white text-shadow">
+                      {/* <div className="absolute bottom-4 left-4 text-white text-shadow">
                         <div className="text-sm">Fruits Detected: {detectedFruits}</div>
                         <div className="text-sm">Elapsed: {formatElapsedTime(elapsedTime)}</div>
-                      </div>
+                      </div> */}
                       
                       {/* Center reticle */}
                       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -248,12 +248,12 @@ const DroneDetails = () => {
                       </div>
                       
                       {/* Compass */}
-                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white bg-black/30 rounded px-2 py-1">
-                        <div className="flex items-center text-sm">
+                      {/* <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white bg-black/30 rounded px-2 py-1">
+                        { <div className="flex items-center text-sm">
                           <Navigation size={12} className="mr-1" />
                           <span>Heading: 315° NW</span>
-                        </div>
-                      </div>
+                        </div> }
+                      </div> */}
                     </div>
                   </div>
                 </>
@@ -261,7 +261,7 @@ const DroneDetails = () => {
             </div>
             
             {/* Mission status overlay */}
-            {missionStatus !== 'ready' && (
+            {/* {missionStatus !== 'ready' && (
               <div className="absolute top-0 right-0 m-4 bg-black/60 text-white px-3 py-1.5 rounded-md flex items-center space-x-2">
                 {missionStatus === 'in-progress' && (
                   <>
@@ -282,7 +282,7 @@ const DroneDetails = () => {
                   </>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </div>
         

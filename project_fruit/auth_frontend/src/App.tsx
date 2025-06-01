@@ -8,36 +8,22 @@ import MissionPlanner from './pages/MissionPlanner';
 import DroneDetails from './pages/DroneDetails';
 
 import Layout from './components/Layout';
-import PrivateRoute from './components/PrivateRoute';
-import { AuthProvider } from './context/AuthContext'; // Ensure this file exists
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Toaster position="top-right" />
+    <Router>
+      <Toaster position="top-right" />
 
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
-          {/* Protected Routes */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Layout />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="mission-planner" element={<MissionPlanner />} />
-            <Route path="drone-details/:missionId" element={<DroneDetails />} />
-          </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="mission-planner" element={<MissionPlanner />} />
+          <Route path="drone-details/:missionId" element={<DroneDetails />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
