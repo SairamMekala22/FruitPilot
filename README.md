@@ -55,3 +55,7 @@ The goal is to assist farmers with efficient, precise, and scalable fruit harves
 - 🔋 **Power optimization** – Improve flight time with efficient path planning and battery management.  
 
 ---
+## 📸 Media
+### Demo Video
+🎥 [Watch Demo Video](Docs\fruitpilot.mp4)
+🎥 [Watch Demo Video(Drone feed)](Docs\droneview.mp4)
