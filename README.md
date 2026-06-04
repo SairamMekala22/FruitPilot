@@ -57,5 +57,5 @@ The goal is to assist farmers with efficient, precise, and scalable fruit harves
 ---
 ## 📸 Media
 ### Demo Video
-🎥 [Watch Demo Video](Docs\fruitpilot.mp4)
-🎥 [Watch Demo Video(Drone feed)](Docs\droneview.mp4)
+🎥 [Watch Demo Video](https://photos.app.goo.gl/FQiLm7oFtK2b7GEr5)
+🎥 [Watch Demo Video(Drone feed)](https://photos.app.goo.gl/EA1LS5nxcwQMHHRU7)
